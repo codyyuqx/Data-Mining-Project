@@ -1,16 +1,15 @@
 # Data Mining Project: Banking Loan Prediction
 
-A digital arm of a bank faces challenges with lead conversions. The primary objective of this division is to increase customer acquisition through digital channels. The division was set up a few years back and the primary focus of the division over these years has been to increase the number of leads getting into the conversion funnel.
+A bank’s digital division is encountering obstacles in converting leads into customers.  Their main goal is to enhance customer acquisition through digital means.  The main focus is to increase the number of leads that enter the conversion.  They obtain leads through search engines, display ads, email campaigns, and through affiliate partners.  Naturally, the conversion rate varies depending on the source and quality of the leads.
 
-They source leads through various channels like search, display, email campaigns and via affiliate partners. As expected, they see differential conversion depending on the sources and the quality of these leads.
+The current objective is to identify the segments of leads that have higher conversion rate (from lead to purchasing a product).  This will enable them to specifically target these potential customers through additional channels and re-marketing strategies.  The data set contains a customers’ loan history from the past three months, as well as their basic information.
 
-They now want to identify the leads' segments having a higher conversion ratio (lead to buying a product) so that they can specifically target these potential customers through additional channels and re-marketing. They have provided a partial data set for customers loan history from the last 3 months. They also capture basic details about customers.
+Our data set is from the Kaggle, which contains 30,038 rows and 22 columns.
 
 ## Content
 
-The data used in this project is from an anonymous organisation’s social media ad campaign. 
 
-Kaggle Link: https://www.kaggle.com/datasets/loveall/clicks-conversion-tracking  
+Kaggle Link: https://www.kaggle.com/datasets/arashnic/banking-loan-prediction
 
 Dataset spitted to the train and test, containing 30038 rows and 22 columns.
 
