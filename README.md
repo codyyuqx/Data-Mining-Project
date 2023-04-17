@@ -1,58 +1,107 @@
-# Data Mining Project: Banking Loan Prediction
+Topic Proposal 
 
-A bank’s digital division is encountering obstacles in converting leads into customers.  Their main goal is to enhance customer acquisition through digital means.  The main focus is to increase the number of leads that enter the conversion.  They obtain leads through search engines, display ads, email campaigns, and through affiliate partners.  Naturally, the conversion rate varies depending on the source and quality of the leads.
+ 
+ 
 
-The current objective is to identify the segments of leads that have higher conversion rate (from lead to purchasing a product).  This will enable them to specifically target these potential customers through additional channels and re-marketing strategies.  The data set contains a customers’ loan history from the past three months, as well as their basic information.
+Team Members: QiXiong(Cody) Yu, Tracie Robinson, Xuyue Wan, Indulekha Siddabathuni 
 
-Our data set is from the Kaggle, which contains 30,038 rows and 22 columns.
+ 
+ 
 
-## Content
+Topic: Banking Loan Prediction 
 
+ 
+ 
 
-Kaggle Link: https://www.kaggle.com/datasets/arashnic/banking-loan-prediction
+A bank’s digital division is encountering obstacles in converting leads into customers.  Their main goal is to enhance customer acquisition through digital means.  The main focus is to increase the number of leads that enter the conversion.  They obtain leads through search engines, display ads, email campaigns, and through affiliate partners.  Naturally, the conversion rate varies depending on the source and quality of the leads. 
 
-Dataset spitted to the train and test, containing 30038 rows and 22 columns.
+The current objective is to identify the segments of leads that have higher conversion rate (from lead to purchasing a product).  This will enable them to specifically target these potential customers through additional channels and re-marketing strategies.  The data set contains a customers’ loan history from the past three months, as well as their basic information. 
 
-ID : Unique Customer ID
+ Our data set is from the Kaggle, which contains 30,038 rows and 22 columns. 
 
-Gender : Gender of the applicant
+ 
+ 
 
-DOB : Date of Birth of the applicant
+Attributes:  
 
-Lead_Creation_Date : Date on which Lead was created
+ID : Unique Customer ID 
 
-City_Code : Anonymised Code for the City
+Gender : Gender of the applicant 
 
-City_Category: Anonymised City Feature
+DOB : Date of Birth of the applicant 
 
-Employer_Code: Anonymised Code for the Employer
+Lead_Creation_Date : Date on which Lead was created 
 
-Employer_Category1 : Anonymised Employer Feature
+City_Code : Anonymised Code for the City 
 
-Employer_Category2: Anonymised Employer Feature
+City_Category: Anonymised City Feature 
 
-Monthly_Income : Monthly Income in Dollars
+Employer_Code: Anonymised Code for the Employer 
 
-Customer_Existing_Primary_Bank_Code : Anonymised Customer Bank Code
+Employer_Category1 : Anonymised Employer Feature 
 
-Primary_Bank_Type: Anonymised Bank Feature
+Employer_Category2: Anonymised Employer Feature 
 
-Contacted: Contact Verified (Y/N)
+Monthly_Income : Monthly Income in Dollars 
 
-Source : Categorical Variable representing source of lead
+Customer_Existing_Primary_Bank_Code : Anonymised Customer Bank Code 
 
-Source_Category: Type of Source
+Primary_Bank_Type: Anonymised Bank Feature 
 
-Existing_EMI : EMI of Existing Loans in Dollars
+Contacted: Contact Verified (Y/N) 
 
-Loan_Amount: Loan Amount Requested
+Source : Categorical Variable representing source of lead 
 
-Loan_Period: Loan Period (Years)
+Source_Category: Type of Source 
 
-Interest_Rate: Interest Rate of Submitted Loan Amount
+Existing_EMI : EMI of Existing Loans in Dollars 
 
-EMI: EMI of Requested Loan Amount in dollars
+Loan_Amount: Loan Amount Requested 
 
-Var1: Anonymized Categorical variable with multiple levels
+Loan_Period: Loan Period (Years) 
 
-Approved: (Target) Whether a loan is Approved or not (1-0) . Customer is Qualified Lead or not (1-0)
+Interest_Rate: Interest Rate of Submitted Loan Amount 
+
+EMI: EMI of Requested Loan Amount in dollars 
+
+Var1: Anonymized Categorical variable with multiple levels 
+
+Approved: (Target) Whether a loan is Approved or not (1-0) . Customer is Qualified Lead or not (1-0) 
+
+SMART questions: 
+
+What is the proportion of approved and rejected loan applications in the dataset? 
+
+Can we identify a set of key features that are most predictive of whether or not an applicant will be approved or denied?  
+
+Can we do dimensionality reduction based on anonymized features such as city and employer? 
+
+Are there any variables that indicate how much an applicant will be approved for? 
+
+Is there any correlation between the monthly income and the interest rate for the applicant’s loan? What about loan amount and interest rate? Loan period and interest rate? 
+
+ 
+ 
+
+Models: Exploratory Data Analysis (EDA),  Simple Linear Regression(SLR), Multi-Linear Regression(MLR), T-test, Logistic regression, Decision tree or Random forest 
+
+  
+
+Dataset Source: Kaggle dataset : Banking Loan Prediction 
+
+Link: https://www.kaggle.com/datasets/arashnic/banking-loan-prediction  
+
+  
+
+GitHub Repo Link: https://github.com/XuyueW/Data-Mining-Project   
+
+ 
+Instructor's feedback: 
+
+This is very well-written proposal. Crisp and clear! 
+
+You are encouraged to also consider some other machine learning model. 
+
+Please make sure that you define your target variable clearly in the report. I see that there are multiple outcomes you are trying to predict, such as approval status, approved amount (for those who got approved), segments of leads with high conversion rate... 
+
+ 
