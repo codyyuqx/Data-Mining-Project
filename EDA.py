@@ -9,6 +9,12 @@ from imblearn.over_sampling import SMOTE
 from scipy.stats import chi2_contingency
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+
 # %%
 df = pd.read_csv('train.csv')
 df.head()
@@ -221,5 +227,45 @@ print("Shape of balanced dataset:", resampled_data.shape)
 print(resampled_data['Approved'].value_counts())
 
 #%%
+# Prepare the data for modeling
+X_loan_amount = df['Loan_Amount'].values.reshape(-1, 1)
+y_EMI = df['EMI']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_loan_amount,y_EMI, test_size=0.2, random_state=42)
+
+# Create and fit the logistic regression model
+lr_model = LogisticRegression()
+lr_model.fit(X_train, y_train)
+
+# Predict on the testing set
+y_pred = lr_model.predict(X_test)
+
+# Evaluate the accuracy of the model
+accuracy = accuracy_score(y_test, y_pred)
+print('Model accuracy:', accuracy)
+
+#sns.swarmplot(x='EMI', y='Monthly_Income', data=df)
+
+#sns.violinplot(x='EMI', y='Monthly_Income', data=df)
+sns.boxplot(x='EMI', y='Loan_Amount', data=df)
 
 # %%
+# Split data into training and test sets
+X_amount_EMI = df[['Loan_Amount', 'EMI']]
+y_approved= df['Approved']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Scale the data
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Train the KNN model
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train_scaled, y_train)
+
+# Evaluate the KNN model
+y_pred = knn.predict(X_test_scaled)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.3f}")
