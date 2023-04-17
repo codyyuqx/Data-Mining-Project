@@ -4,6 +4,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from datetime import datetime
+from imblearn.over_sampling import SMOTE
+from scipy.stats import chi2_contingency
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import OneHotEncoder
 # %%
 df = pd.read_csv('train.csv')
 df.head()
@@ -34,7 +39,7 @@ df.describe()
 # for 15 missing value in DOB, we can just drop those observations
 df = df.dropna(subset=['DOB'])
 # convert DOB to age in years
-from datetime import datetime
+
 now = datetime.now()
 df['age'] = now.year - pd.to_datetime(df['DOB'], format='%d/%m/%y').dt.year
 # drop DOB column
@@ -119,14 +124,14 @@ print("Shape of dataset:", df.shape)
 # (Source,Source_Category)
 
 # Perform chi-square test of independence between Employer_Category1,Employer_Category2
-from scipy.stats import chi2_contingency
+
 observed = pd.crosstab(df['Employer_Category1'], df['Employer_Category2'])
 chi2, p, dof, expected = chi2_contingency(observed)
 print(f"Chi-square statistic: {chi2:.2f}")
 print(f"P-value: {p:.2f}")
 
 # Combine two highly correlated categorical variables using PCA
-from sklearn.decomposition import PCA
+
 
 # (City_Code , City_Category) 
 X = pd.get_dummies(df[['City_Code', 'City_Category']])
@@ -189,8 +194,7 @@ plt.show()
 
 #%%
 # SMOTE(generate synthetic samples)
-from imblearn.over_sampling import SMOTE
-from sklearn.preprocessing import OneHotEncoder
+
 
 # note SMOTE requires all variable involved are numeric
 # categorical_cols = df.iloc[:, [0, 7, 8]]
