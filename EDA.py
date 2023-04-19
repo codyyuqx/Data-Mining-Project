@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime
 from imblearn.over_sampling import SMOTE
+import statsmodels.api as sm
 from scipy.stats import chi2_contingency
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import OneHotEncoder
@@ -173,6 +174,12 @@ df['Source_Combined'] = pca.fit_transform(X)
 # drop original variables
 df = df.drop(columns=['Source','Source_Category'])
 
+
+df.to_csv('forTest.csv', index=False)
+#%%
+print(df.columns.tolist())
+
+
 # %%
 # bar plot of Approved
 plt.figure(figsize=(6,4))
@@ -254,7 +261,7 @@ sns.boxplot(x='EMI', y='Loan_Amount', data=df)
 # Split data into training and test sets
 X_amount_EMI = df[['Loan_Amount', 'EMI']]
 y_approved= df['Approved']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Scale the data
 scaler = StandardScaler()
@@ -269,3 +276,211 @@ knn.fit(X_train_scaled, y_train)
 y_pred = knn.predict(X_test_scaled)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy:.3f}")
+
+
+# %%
+
+sns.kdeplot(data=df, x='age', hue='Approved', fill=True)
+
+plt.xlabel('Age')
+plt.ylabel('Density')
+plt.title('Density plot of Age and Approved')
+plt.legend(title='Approved', loc='upper right', labels=['Yes', 'No'])
+plt.show()
+
+# %%
+approved_counts = df.groupby(['age', 'Approved']).size().reset_index(name='count')
+
+# Pivot the data to create a bar plot
+approved_pivot = approved_counts.pivot(index='age', columns='Approved', values='count')
+approved_pivot.plot(kind='bar', stacked=False)
+
+# Set the chart labels and title
+plt.title('Count of Approved Cases by Age Group')
+plt.xlabel('Age Group')
+plt.ylabel('Count')
+plt.legend(title='Approved', labels=['No', 'Yes'])
+plt.show()
+
+# %%
+
+
+# Count the number of approved and unapproved cases
+approved_counts = df['Approved'].value_counts()
+
+# Create a pie chart
+plt.pie(approved_counts, labels=['Not Approved', 'Approved'], autopct='%1.1f%%', startangle=90)
+plt.axis('equal')
+
+# Set the chart title
+plt.title('Proportion of Approved Cases')
+
+plt.show()
+
+# %%
+sns.violinplot(x="Approved", y="age", data=df)
+
+# Set the chart title
+plt.title('Distribution of Age by Approval Status')
+
+plt.show()
+
+#%%
+gender_counts = df["Gender"].value_counts()
+labels = gender_counts.index
+sizes = gender_counts.values
+plt.pie(sizes, labels=labels, autopct='%1.1f%%')
+plt.title("Gender Distribution")
+plt.show()
+# %%
+
+gender_approved = df.groupby(['Gender', 'Approved'])['Approved'].count().unstack()
+
+# create the bar chart
+ax = gender_approved.plot(kind='bar')
+
+# add count labels to each bar
+for i in ax.containers:
+    ax.bar_label(i, label_type='edge', fontsize=10, padding=4)
+
+# add labels and title
+plt.xlabel('Gender')
+plt.ylabel('Count')
+plt.title('Loan Approval by Gender')
+plt.legend(title='Approved', labels=['No', 'Yes'])
+
+# show the plot
+plt.show()
+# %%
+pivot_table = df.pivot_table(index='age', columns=['Gender', 'Approved'], values='Loan_Amount', aggfunc='count')
+
+# create the heatmap
+sns.heatmap(pivot_table, cmap='coolwarm', annot=True, fmt='g')
+
+# add labels and title
+plt.xlabel('Gender, Approved')
+plt.ylabel('Age')
+plt.title('Loan Approval by Age and Gender')
+
+# show the plot
+plt.show()
+# %%
+
+interest_rate = df["Interest_Rate"]
+existing_emi = df["Existing_EMI"]
+
+# Create a scatter plot
+plt.scatter(interest_rate, existing_emi)
+plt.xlabel("Interest Rate")
+plt.ylabel("Existing EMI")
+plt.title("Relationship between Interest Rate and Existing EMI")
+plt.show()
+
+# %%
+
+sns.scatterplot(x='Monthly_Income', y='Existing_EMI', size='Loan_Amount', data=df)
+# add labels and title
+plt.xlabel('Monthly Income')
+plt.ylabel('Existing EMI')
+plt.title('Relationship between Monthly Income, Existing EMI, and Loan Amount')
+
+
+# %%
+approved_df = df[df['Approved'] == 1]
+
+sns.stripplot(x="age", y="Loan_Amount", hue="Gender", data=df, dodge=True)
+
+# set x and y labels
+plt.xlabel("Age")
+plt.ylabel("Loan Amount")
+
+# set title
+plt.title("Loan Amount vs. Age and Gender")
+
+# show the plot
+plt.show()
+
+# %%
+bins = [18, 30, 40, 50, 60, 70, 80, 90]
+labels = ['18-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90']
+df['age_group'] = pd.cut(df['age'], bins=bins, labels=labels)
+
+# create the strip plot with hue
+sns.stripplot(x='age_group', y='Loan_Amount', hue='Gender', data=df)
+
+# set the x-axis label
+plt.xlabel('Age Group')
+
+# set the y-axis label
+plt.ylabel('Loan Amount')
+
+# set the title of the plot
+plt.title('Loan Amount by Age Group and Gender')
+
+# show the plot
+plt.show()
+
+
+# %%
+
+# Use Seaborn to plot the correlation matrix between numerical variables
+sns.heatmap(df[['Monthly_Income', 'Loan_Amount', 'Loan_Period', 'Interest_Rate']].corr(), annot=True, cmap='coolwarm')
+plt.show()
+
+# Use Seaborn to plot scatterplots between numerical variables
+sns.pairplot(df[['Monthly_Income', 'Loan_Amount', 'Loan_Period', 'Interest_Rate']])
+plt.show()
+
+# Use Seaborn to plot a scatterplot matrix with hue by gender
+sns.pairplot(df[['Monthly_Income', 'Loan_Amount', 'Loan_Period', 'Interest_Rate', 'Gender']], hue='Gender')
+plt.show()
+
+
+#%%
+
+# Scatterplot for monthly income and interest rate
+sns.scatterplot(data=df, x='Monthly_Income', y='Interest_Rate')
+plt.xlabel('Monthly Income')
+plt.ylabel('Interest Rate')
+plt.title('Scatterplot of Monthly Income and Interest Rate')
+plt.show()
+
+# Scatterplot for loan amount and interest rate
+sns.scatterplot(data=df, x='Loan_Amount', y='Interest_Rate')
+plt.xlabel('Loan Amount')
+plt.ylabel('Interest Rate')
+plt.title('Scatterplot of Loan Amount and Interest Rate')
+plt.show()
+
+# Scatterplot for loan period and interest rate
+sns.scatterplot(data=df, x='Interest_Rate', y='Loan_Period')
+plt.xlabel('Loan Period')
+plt.ylabel('Interest Rate')
+plt.title('Scatterplot of Loan Period and Interest Rate')
+plt.show()
+
+
+#%%
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df[['Monthly_Income', 'Loan_Amount', 'Loan_Period', 'Interest_Rate']], df['Approved'], test_size=0.2, random_state=42)
+
+# Define the logistic regression model
+lr = LogisticRegression()
+
+# Fit the model on the training set
+lr.fit(X_train, y_train)
+
+# Use the model to make predictions on the testing set
+y_pred = lr.predict(X_test)
+
+# Evaluate the performance of the model using accuracy score and classification report
+print("Accuracy Score:", accuracy_score(y_test, y_pred))
+print("Classification Report:\n", classification_report(y_test, y_pred))
+
+
+# %%
