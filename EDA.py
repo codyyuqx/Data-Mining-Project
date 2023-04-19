@@ -9,10 +9,13 @@ from imblearn.over_sampling import SMOTE
 from scipy.stats import chi2_contingency
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.preprocessing import StandardScaler
 
 # %%
@@ -34,14 +37,22 @@ df['Var1'] = df['Var1'].astype(str)
 # convert Approved (Whether a loan is Approved or not (1-0) . Customer is Qualified Lead or not (1-0))
 df['Approved'] = df['Approved'].astype(str)
 print("Data types:\n", df.dtypes)
+# EDA
 # numeric variable summary
-df.describe()
+print(df.describe()) #Descriptive Statistics
+print(df.corr()) #Correlation Analysis
+sns.countplot(x='Approved', data=df) # Target variable distribution
 # df['Employer_Code'].unique()
 # df['Customer_Existing_Primary_Bank_Code'].unique()
 # df['Employer_Code'].unique()
 
 #%%
+# DATA CLEANING
 # missing value and convert data
+
+df = df.drop_duplicates() # Remove duplicates
+df = df.dropna() # Remove missing values
+df = df[(df['Monthly_Income'] >= 1500) & (df['Monthly_Income'] <= 25000)] # Handle outliers
 # for 15 missing value in DOB, we can just drop those observations
 df = df.dropna(subset=['DOB'])
 # convert DOB to age in years
